@@ -6,7 +6,7 @@
 /*   By: ncruz-ga <ncruz-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:55:21 by ncruz-ga          #+#    #+#             */
-/*   Updated: 2023/06/06 16:25:55 by ncruz-ga         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:27:58 by ncruz-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,14 @@ static char	*clean(char *str)
 		return (NULL);
 	}
 	str_res = ft_calloc((ft_strlen(str) - i + 1), sizeof (char));
+	if (!str_res)
+		return (free(str), NULL);
 	i++;
 	j = 0;
 	while (str[i] != '\0')
 		str_res[j++] = str[i++];
-	free(str);
-	if (str_res[0] == '\0')
-	{
-		free(str_res);
-		return (NULL);
-	}
-	return (str_res);
+	str_res[j] = '\0';
+	return (free(str), str_res);
 }
 
 static char	*actual(char *str)
@@ -46,11 +43,13 @@ static char	*actual(char *str)
 	int		i;
 
 	i = 0;
-	if (str[i] == 0)
+	if (str[i] == '\0')
 		return (NULL);
 	while (str[i] != '\0' && str[i] != '\n')
 		i++;
 	str_res = ft_calloc((i + 1 + (str[i] == '\n')), sizeof(char));
+	if (!str_res)
+		return (NULL);
 	i = 0;
 	while (str[i] != '\0' && str[i] != '\n')
 	{
@@ -59,6 +58,7 @@ static char	*actual(char *str)
 	}
 	if (str[i] != '\0' && str[i] == '\n')
 		str_res[i++] = '\n';
+	str_res[i] = '\0';
 	return (str_res);
 }
 
@@ -69,7 +69,7 @@ static char	*join(char *str, char *buffer)
 	r = ft_strjoin(str, buffer);
 	if (!r)
 		return (NULL);
-	return (free(str), r);
+	return (r);
 }
 
 static char	*lot(int fd, char *str)
@@ -77,11 +77,11 @@ static char	*lot(int fd, char *str)
 	char	*temp;
 	int		read_char;
 
-	if (!str)
-		str = ft_calloc(1, sizeof(char));
 	temp = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	if (!temp)
+		return (free(str), NULL);
 	read_char = 1;
-	while (read_char > 0)
+	while (read_char > 0 && !ft_strchr(temp, '\n'))
 	{
 		read_char = read(fd, temp, BUFFER_SIZE);
 		if (read_char < 0)
@@ -91,11 +91,10 @@ static char	*lot(int fd, char *str)
 		}
 		temp[read_char] = '\0';
 		str = join(str, temp);
-		if (ft_strchr (temp, '\n'))
-			break ;
+		if (!str)
+			return (free(str), free(temp), NULL);
 	}
-	free(temp);
-	return (str);
+	return (free(temp), str);
 }
 
 char	*get_next_line(int fd)
@@ -115,12 +114,18 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	str = lot(fd, str);
+	if (!str)
+		return (free(str), str = NULL, NULL);
 	actual_line = actual(str);
+	if (!actual_line)
+		return (free(str), str = NULL, NULL);
 	str = clean(str);
+	if (!str)
+		return (free(str), str = NULL, actual_line);
 	return (actual_line);
 }
 
-#include <fcntl.h>
+/* #include <fcntl.h>
 #include <stdio.h>
 int main ()
 {
@@ -135,4 +140,4 @@ int main ()
 		line = get_next_line(fichero);
 	}
 	close(fichero);
-}
+} */
