@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ncruz-ga <ncruz-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:55:39 by ncruz-ga          #+#    #+#             */
-/*   Updated: 2023/06/14 14:31:22 by ncruz-ga         ###   ########.fr       */
+/*   Updated: 2023/06/15 10:53:22 by ncruz-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *str)
 {
@@ -29,7 +29,7 @@ void	*ft_calloc(size_t count, size_t size)
 
 	ptr = (char *)malloc(count * size);
 	if (!ptr)
-		return (NULL);
+		return (0);
 	i = 0;
 	while (i < (count * size))
 	{

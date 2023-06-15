@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ncruz-ga <ncruz-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/30 11:55:21 by ncruz-ga          #+#    #+#             */
-/*   Updated: 2023/06/15 10:46:30 by ncruz-ga         ###   ########.fr       */
+/*   Created: 2023/06/13 12:18:41 by ncruz-ga          #+#    #+#             */
+/*   Updated: 2023/06/15 10:53:30 by ncruz-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*clean(char *str)
 {
@@ -72,7 +72,7 @@ static char	*join(char *str, char *buffer)
 	return (r);
 }
 
-static char	*read_fd(int fd, char *str)
+static char	*lot(int fd, char *str)
 {
 	char	*temp;
 	int		read_char;
@@ -99,45 +99,28 @@ static char	*read_fd(int fd, char *str)
 
 char	*get_next_line(int fd)
 {
-	static char	*str;
+	static char	*str[2048];
 	char		*actual_line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (read(fd, 0, 0) < 0)
 	{
-		if (str != NULL)
+		if (str[fd] != NULL)
 		{
-			free(str);
-			str = NULL;
+			free(str[fd]);
+			str[fd] = NULL;
 		}
 		return (NULL);
 	}
-	str = read_fd(fd, str);
-	if (!str)
-		return (free(str), str = NULL, NULL);
-	actual_line = actual(str);
+	str[fd] = lot(fd, str[fd]);
+	if (!str[fd])
+		return (free(str[fd]), str[fd] = NULL, NULL);
+	actual_line = actual(str[fd]);
 	if (!actual_line)
-		return (free(str), str = NULL, NULL);
-	str = clean(str);
-	if (!str)
-		return (free(str), str = NULL, actual_line);
+		return (free(str[fd]), str[fd] = NULL, NULL);
+	str[fd] = clean(str[fd]);
+	if (!str[fd])
+		return (free(str[fd]), str[fd] = NULL, actual_line);
 	return (actual_line);
-}
-
-#include <fcntl.h>
-#include <stdio.h>
-int main ()
-{
-	int fichero;
-	char *line;
-
-	fichero = open("test.txt", O_RDONLY);
-	line = get_next_line(fichero);
-	while (line != NULL)
-	{
-		printf("%s\n", line);
-		line = get_next_line(fichero);
-	}
-	close(fichero);
 }
