@@ -6,13 +6,13 @@
 /*   By: ncruz-ga <ncruz-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:18:41 by ncruz-ga          #+#    #+#             */
-/*   Updated: 2023/06/15 10:53:30 by ncruz-ga         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:41:06 by ncruz-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static char	*clean(char *str)
+static char	*clean_buffer(char *str)
 {
 	int		i;
 	int		j;
@@ -37,7 +37,7 @@ static char	*clean(char *str)
 	return (free(str), str_res);
 }
 
-static char	*actual(char *str)
+static char	*get_actual_line(char *str)
 {
 	char	*str_res;
 	int		i;
@@ -72,7 +72,7 @@ static char	*join(char *str, char *buffer)
 	return (r);
 }
 
-static char	*lot(int fd, char *str)
+static char	*read_fd(int fd, char *str)
 {
 	char	*temp;
 	int		read_char;
@@ -113,14 +113,45 @@ char	*get_next_line(int fd)
 		}
 		return (NULL);
 	}
-	str[fd] = lot(fd, str[fd]);
+	str[fd] = read_fd(fd, str[fd]);
 	if (!str[fd])
 		return (free(str[fd]), str[fd] = NULL, NULL);
-	actual_line = actual(str[fd]);
+	actual_line = get_actual_line(str[fd]);
 	if (!actual_line)
 		return (free(str[fd]), str[fd] = NULL, NULL);
-	str[fd] = clean(str[fd]);
+	str[fd] = clean_buffer(str[fd]);
 	if (!str[fd])
 		return (free(str[fd]), str[fd] = NULL, actual_line);
 	return (actual_line);
 }
+/*
+#include <fcntl.h>
+#include <stdio.h>
+int main ()
+{
+	int fichero;
+	int	fichero2;
+	char *line;
+	char *line2;	
+
+	fichero = open("test.txt", O_RDONLY);
+	line = get_next_line(fichero);
+	printf("%s", line);
+	while (line != NULL)
+	{
+		printf("%s", line);
+		line = get_next_line(fichero);
+	}
+	printf("\n\n%d", fichero);
+	fichero2 = open("test2", 0);
+	line = get_next_line(fichero2);
+	printf("%s", line);
+	while (line != NULL)
+	{
+		printf("%s", line2);
+		line2 = get_next_line(fichero2);
+	}
+	printf("\n%d", fichero2);
+	free(line);
+}
+*/

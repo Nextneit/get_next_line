@@ -6,13 +6,13 @@
 /*   By: ncruz-ga <ncruz-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:55:21 by ncruz-ga          #+#    #+#             */
-/*   Updated: 2023/06/15 10:46:30 by ncruz-ga         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:41:27 by ncruz-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*clean(char *str)
+static char	*clean_buffer(char *str)
 {
 	int		i;
 	int		j;
@@ -26,7 +26,7 @@ static char	*clean(char *str)
 		free(str);
 		return (NULL);
 	}
-	str_res = ft_calloc((ft_strlen(str) - i + 1), sizeof (char));
+	str_res = ft_calloc((ft_strlen(str) - i + 1), sizeof(char));
 	if (!str_res)
 		return (free(str), NULL);
 	i++;
@@ -37,7 +37,7 @@ static char	*clean(char *str)
 	return (free(str), str_res);
 }
 
-static char	*actual(char *str)
+static char	*get_actual_line(char *str)
 {
 	char	*str_res;
 	int		i;
@@ -116,28 +116,34 @@ char	*get_next_line(int fd)
 	str = read_fd(fd, str);
 	if (!str)
 		return (free(str), str = NULL, NULL);
-	actual_line = actual(str);
+	actual_line = get_actual_line(str);
 	if (!actual_line)
 		return (free(str), str = NULL, NULL);
-	str = clean(str);
+	str = clean_buffer(str);
 	if (!str)
 		return (free(str), str = NULL, actual_line);
 	return (actual_line);
 }
-
+/*
 #include <fcntl.h>
 #include <stdio.h>
 int main ()
 {
 	int fichero;
+	int	fichero2;
 	char *line;
 
 	fichero = open("test.txt", O_RDONLY);
 	line = get_next_line(fichero);
+	printf("%s", line);
 	while (line != NULL)
 	{
-		printf("%s\n", line);
+		printf("%s", line);
 		line = get_next_line(fichero);
 	}
+	printf("\n\n%d", fichero);
 	close(fichero);
-}
+	fichero2 = open("test2", 0);
+	printf("\n%d", fichero2);
+	free(line);
+}*/
