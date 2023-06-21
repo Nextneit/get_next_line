@@ -6,7 +6,7 @@
 /*   By: ncruz-ga <ncruz-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:18:41 by ncruz-ga          #+#    #+#             */
-/*   Updated: 2023/06/20 15:41:06 by ncruz-ga         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:33:43 by ncruz-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,27 +131,39 @@ int main ()
 {
 	int fichero;
 	int	fichero2;
-	char *line;
-	char *line2;	
+	int	fichero3;
+	char *linef1;
+	char *linef2;
+	char *linef3;	
 
 	fichero = open("test.txt", O_RDONLY);
-	line = get_next_line(fichero);
-	printf("%s", line);
-	while (line != NULL)
-	{
-		printf("%s", line);
-		line = get_next_line(fichero);
-	}
-	printf("\n\n%d", fichero);
 	fichero2 = open("test2", 0);
-	line = get_next_line(fichero2);
-	printf("%s", line);
-	while (line != NULL)
+	fichero3 = open("vacio", 0);
+	linef1 = get_next_line(fichero);
+	while (linef1 != NULL)
 	{
-		printf("%s", line2);
-		line2 = get_next_line(fichero2);
+		printf("%s", linef1);
+		linef1 = get_next_line(fichero);
 	}
-	printf("\n%d", fichero2);
-	free(line);
+	printf("\n");
+	linef2 = get_next_line(fichero2);
+	while (linef2 != NULL)
+	{
+		printf("%s", linef2);
+		linef2 = get_next_line(fichero2);
+	}
+	printf("\n");
+	linef3 = get_next_line(fichero3);
+	while (linef3 != NULL)
+	{
+		printf("%s", linef3);
+		linef3 = get_next_line(fichero3);
+	}
+	close(fichero);
+	close(fichero2);
+	close(fichero3);
+	free(linef1);
+	free(linef2);
+	free(linef3);
 }
 */

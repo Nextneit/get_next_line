@@ -6,7 +6,7 @@
 /*   By: ncruz-ga <ncruz-ga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:55:21 by ncruz-ga          #+#    #+#             */
-/*   Updated: 2023/06/20 15:41:27 by ncruz-ga         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:28:51 by ncruz-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,20 +130,16 @@ char	*get_next_line(int fd)
 int main ()
 {
 	int fichero;
-	int	fichero2;
 	char *line;
 
 	fichero = open("test.txt", O_RDONLY);
 	line = get_next_line(fichero);
-	printf("%s", line);
 	while (line != NULL)
 	{
 		printf("%s", line);
 		line = get_next_line(fichero);
 	}
-	printf("\n\n%d", fichero);
+	printf("\n");
 	close(fichero);
-	fichero2 = open("test2", 0);
-	printf("\n%d", fichero2);
 	free(line);
 }*/
