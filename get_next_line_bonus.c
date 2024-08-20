@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncruz-ga <ncruz-ga@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: ncruz-ga <ncruz-ga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:18:41 by ncruz-ga          #+#    #+#             */
-/*   Updated: 2023/06/21 11:33:43 by ncruz-ga         ###   ########.fr       */
+/*   Updated: 2024/08/20 11:59:24 by ncruz-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ static char	*get_actual_line(char *str)
 
 static char	*join(char *str, char *buffer)
 {
-	char	*r;
+	char	*c;
 
-	r = ft_strjoin(str, buffer);
-	if (!r)
+	c = ft_strjoin(str, buffer);
+	if (!c)
 		return (NULL);
-	return (r);
+	return (c);
 }
 
 static char	*read_fd(int fd, char *str)
@@ -124,46 +124,3 @@ char	*get_next_line(int fd)
 		return (free(str[fd]), str[fd] = NULL, actual_line);
 	return (actual_line);
 }
-/*
-#include <fcntl.h>
-#include <stdio.h>
-int main ()
-{
-	int fichero;
-	int	fichero2;
-	int	fichero3;
-	char *linef1;
-	char *linef2;
-	char *linef3;	
-
-	fichero = open("test.txt", O_RDONLY);
-	fichero2 = open("test2", 0);
-	fichero3 = open("vacio", 0);
-	linef1 = get_next_line(fichero);
-	while (linef1 != NULL)
-	{
-		printf("%s", linef1);
-		linef1 = get_next_line(fichero);
-	}
-	printf("\n");
-	linef2 = get_next_line(fichero2);
-	while (linef2 != NULL)
-	{
-		printf("%s", linef2);
-		linef2 = get_next_line(fichero2);
-	}
-	printf("\n");
-	linef3 = get_next_line(fichero3);
-	while (linef3 != NULL)
-	{
-		printf("%s", linef3);
-		linef3 = get_next_line(fichero3);
-	}
-	close(fichero);
-	close(fichero2);
-	close(fichero3);
-	free(linef1);
-	free(linef2);
-	free(linef3);
-}
-*/

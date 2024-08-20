@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncruz-ga <ncruz-ga@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: ncruz-ga <ncruz-ga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:55:21 by ncruz-ga          #+#    #+#             */
-/*   Updated: 2023/06/21 11:28:51 by ncruz-ga         ###   ########.fr       */
+/*   Updated: 2024/08/20 12:00:17 by ncruz-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ static char	*get_actual_line(char *str)
 
 static char	*join(char *str, char *buffer)
 {
-	char	*r;
+	char	*c;
 
-	r = ft_strjoin(str, buffer);
-	if (!r)
+	c = ft_strjoin(str, buffer);
+	if (!c)
 		return (NULL);
-	return (r);
+	return (c);
 }
 
 static char	*read_fd(int fd, char *str)
@@ -124,22 +124,3 @@ char	*get_next_line(int fd)
 		return (free(str), str = NULL, actual_line);
 	return (actual_line);
 }
-/*
-#include <fcntl.h>
-#include <stdio.h>
-int main ()
-{
-	int fichero;
-	char *line;
-
-	fichero = open("test.txt", O_RDONLY);
-	line = get_next_line(fichero);
-	while (line != NULL)
-	{
-		printf("%s", line);
-		line = get_next_line(fichero);
-	}
-	printf("\n");
-	close(fichero);
-	free(line);
-}*/
